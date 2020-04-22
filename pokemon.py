@@ -22,7 +22,12 @@ class Pokemon:
         self.Experience = 0
         self.Level = 1
 
-
+    def calculate_damage(self,defender,move,screen=None):
+        '''Calculates the damage from an attack'''
+        modifier = self.critical_coeficient(screen)*(random.randint(85,100)/100)*self.type_coeficient(move,defender)
+        damage = ((((2*self.Level)/5+2)*MOVES_DICTIONARY[move]['power']*(CHARACTERS[self.name]['Attack']/CHARACTERS[defender.name]['Defense']))/50)*modifier
+        return damage
+    
     def __str__(self):
         
         tmp_str = f"{self.name} has is type {self.type_}\n" + f"{self.name} has moves {self.Moves}.\n"
@@ -51,9 +56,8 @@ class Pokemon:
             return False
 
     def critical_coeficient(self,screen=None):
-        '''This method return 2 if the attack landed critical hit, otherwise return 1'''
-        num = random.randint(0,511)
-        if num <= self.Speed:
+        '''Determines whether a hit is critical or not'''
+        if random.randint(0,512) < attacker.speed:
             print("Critical hit!")
             if screen:
                 basicFont = pygame.font.SysFont('Monospace',24)
@@ -66,26 +70,18 @@ class Pokemon:
         else:
             return 1
 
-
-    def Type_coeficient(self,move,enemy):
-        '''This method get the move name and enemy instance and return the Type coeficient'''
-        Type = 1
-        move_dict = MOVES_DICTIONARY[move]
-        for enemy_type in enemy.type_:
-            if enemy_type in move_dict['super effective against']:
-                Type = Type*2
-            elif enemy_type in move_dict['not very effective against']:
-                Type = Type*0.5
-        return Type
-
-
-    def calculate_damage(self,defender,move,screen=None):
-        ''' This method get enemy instance and the move that self instance is going to use , and return the overall damage self instance gonna take to the enemy'''
-        modifier = self.critical_coeficient(screen)*(random.randint(85,100)/100)*self.Type_coeficient(move,defender)
-        damage = ((2*self.Level)/5+2)*MOVES_DICTIONARY[move]['power']*(CHARACTERS[self.name]['Attack']/CHARACTERS[defender.name]['Defense'])*modifier
-        damage = damage/50
-        return damage
-
+    def type_coeficient(self,move,enemy):
+        '''Determines the type coeeficient used to calculate damage'''
+        opptypes = opponent.type_
+        selfmove = selfmove.lower()
+        selfmove = selfmove.title()
+        typecoeff = 1
+        for opptype in opptypes:
+            if opptype in MOVES_DICTIONARY[selfmove]['super effective against']:
+                typecoeff = typecoeff*2
+            elif opptype in MOVES_DICTIONARY[selfmove]['not very effective against']:
+                typecoeff = typecoeff/2
+        return typecoeff
 
     def update_level(self,enemy_name):
         '''Updates level based on experience. Rounds down.'''
