@@ -15,8 +15,8 @@ bg = pygame.image.load(os.path.join('images','pokemon.jpg'))
 screen.blit(pygame.transform.scale(bg,(800,600)), (0,0))
 
 basicFont = pygame.font.SysFont('Monospace',36)
-newgame_text = basicFont.render('New Game',True,white,orange)
-exit_text = basicFont.render('Exit',True, white,orange)
+newgame_text = basicFont.render('New Game',True,white,black)
+exit_text = basicFont.render('Exit',True, white,black)
 
 newgame_rect = newgame_text.get_rect()
 newgame_rect.center = (100,400)
@@ -31,8 +31,8 @@ def battle_mode(user,enemy):
     newgame_bg = pygame.image.load(os.path.join('images','pokemon_background_2.png'))
     screen.blit(pygame.transform.scale(newgame_bg,(800,600)),(0,0))
     pygame.display.flip()
-    user_img = pygame.image.load(os.path.join('images',user.name.lower()+'.jpg'))
-    enemy_img = pygame.image.load(os.path.join('images',enemy.name.lower()+'.jpg'))
+    user_img = pygame.image.load(os.path.join('images',user.name.lower()+'.png'))
+    enemy_img = pygame.image.load(os.path.join('images',enemy.name.lower()+'.png'))
     screen.blit(pygame.transform.scale(user_img,(300,300)),(50,100))
     screen.blit(pygame.transform.scale(enemy_img,(300,300)),(450,100))
     user_displayname = user.name + " (Level " + str(int(user.level)) +")"

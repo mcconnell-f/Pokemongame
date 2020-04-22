@@ -99,7 +99,7 @@ class Pokemon:
                 print("Please choose a move that is listed.")
                 return self.choose_move()
         else:
-            pygame.draw.rect(screen,(255,165,0),(50,425,700,150))
+            pygame.draw.rect(screen,(0,0,0),(50,425,700,150))
             basicFont = pygame.font.SysFont('Monospace',24)
             option_text = basicFont.render("Choose a move",True,(255,255,255))
             option_rect = option_text.get_rect()
@@ -154,7 +154,7 @@ class Pokemon:
             else:
                 enemy_move = enemy.choose_optimal_move(self)
             if screen:
-                pygame.draw.rect(screen,(255,165,0),(50,425,700,150))
+                pygame.draw.rect(screen,(0,0,0),(50,425,700,150))
             if first == True:
                 damage = self.calculate_damage(enemy,user_move['name'],screen)
                 enemy.HP = enemy.HP - damage
@@ -202,7 +202,7 @@ class Pokemon:
             print()
             self.update_level(enemy.name)
         if screen:
-                pygame.draw.rect(screen,(255,165,0),(50,425,700,150))
+                pygame.draw.rect(screen,(0,0,0),(50,425,700,150))
                 basicFont = pygame.font.SysFont('Monospace',24)
                 battle_text = basicFont.render(sentences,True,(255,255,255))
                 battle_rect = battle_text.get_rect()

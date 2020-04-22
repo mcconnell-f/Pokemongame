@@ -16,7 +16,7 @@ def choose_character(choices,screen = None):
             return choose_character(choices)
     else:
         basicFont = pygame.font.SysFont('Monospace',36)
-        menu_text = basicFont.render('Choose your Pokemon',True,(255,255,255))
+        menu_text = basicFont.render('Choose your Pokemon',True,(255,255,255),(0,0,0))
         menu_rect = menu_text.get_rect()
         menu_rect.center = (200,50)
         screen.blit(menu_text,menu_rect)
@@ -24,7 +24,7 @@ def choose_character(choices,screen = None):
         current_pos = 100
         ext_pos = 0
         for pokemon in choices:
-            tmp_text = basicFont.render(pokemon,True,(255,255,255),(255,165,0))
+            tmp_text = basicFont.render(pokemon,True,(255,255,255),(0,0,0))
             tmp_rect = tmp_text.get_rect()
             tmp_rect.center = (200+ext_pos,current_pos)
             tmp_button = screen.blit(tmp_text,tmp_rect)
