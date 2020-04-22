@@ -87,7 +87,7 @@ class Pokemon:
             self.level = newlevel
 
     def choose_move(self,screen=None):
-        ''' This method will let user choose a move and return the information of that move if it is valid'''
+        ''' Allows the user to choose a move for their Pokemon'''
         if screen == None:
             print("-----------------------------------------Please choose a move-------------------------------------")
             for move in self.moves:
@@ -133,7 +133,7 @@ class Pokemon:
 
 
     def choose_optimal_move(self,defender):
-        ''' This method will return the optimal move that will deal the most damage amongst of all the move that we can choose. We will return the information of that move from the MOVES_DICTIONARY'''
+        ''' Chooses the optimal move for the computer(defender) based on damage'''
         moves_tuple = []
         for move in self.moves:
             moves_tuple.append(((MOVES_DICTIONARY[move]['power']*self.type_coeficient(move,defender)),move))
@@ -195,7 +195,7 @@ class Pokemon:
                             if event.type == pygame.KEYDOWN or pygame.mouse.get_pressed()[0]:
                                 clicked = True
         if self.HP <= 0:
-            sentences = "Game Over!!!"
+            sentences = "GAME OVER- Your Pokemon has fainted."
             print(sentences)
         elif enemy.HP <= 0:
             sentences = f"You beat {enemy.name}!"
