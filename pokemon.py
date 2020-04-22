@@ -77,7 +77,7 @@ class Pokemon:
 
     def update_level(self,enemy_name):
         '''Updates level based on experience. Rounds down.'''
-        self.experience = self.experience + CHARACTERS[defender.name]['Experience']
+        self.experience = self.experience + CHARACTERS[enemy_name]['Experience']
         newlevel = int(round_down((self.experience)**(1/3)))
         if newlevel > self.level:
             for i in range(newlevel-self.level):
