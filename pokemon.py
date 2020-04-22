@@ -2,6 +2,11 @@ import random
 from characters import CHARACTERS
 from moves_dictionary import MOVES_DICTIONARY
 import pygame
+import math #https://www.knowledgehut.com/blog/programming/python-rounding-numbers
+def round_down(n, decimals=0):
+    '''Rounds any decimal down to an integer'''
+    multiplier = 10 ** decimals
+    return math.floor(n * multiplier) / multiplier
 class Pokemon:
 
 
@@ -83,9 +88,15 @@ class Pokemon:
 
 
     def update_level(self,enemy_name):
-        ''' This method get the enemy name who was defeated and update inplace to the Experience and Level Attribute in the Pokemon class'''
-        self.Experience = self.Experience + CHARACTERS[enemy_name]['Experience']
-        self.Level = (self.Experience)**(1/3)
+        '''Updates level based on experience. Rounds down.'''
+        self.experience = self.experience + CHARACTERS[defender.name]['Experience']
+        newlevel = int(round_down((self.experience)**(1/3)))
+        if newlevel > self.level:
+            for i in range(newlevel-self.level):
+                print("Level up!")
+            print(f"Your Pokemon has reached level {newlevel}")
+        if newlevel != 0:
+            self.level = newlevel
 
     def choose_move(self,screen=None):
         ''' This method will let user choose a move and return the information of that move if it is valid'''
