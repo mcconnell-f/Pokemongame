@@ -38,7 +38,7 @@ class Pokemon:
         return finalsent
 
 
-    def who_attack_first(self,enemy): 
+    def who_attacks_first(self,enemy): 
         '''Determines which Pokemon attacks first based on their speed'''
         if self.speed >= enemy.speed:
             print("Your Pokemon will attack first.")
@@ -144,7 +144,7 @@ class Pokemon:
 
     def battle(self,enemy,screen=None):
         ''' Battle until one Pokemon dies'''
-        first = self.who_attack_first(enemy)
+        first = self.who_attacks_first(enemy)
         sentences = "" 
         self_full_HP = self.HP
         enemy_full_HP = enemy.HP
@@ -162,7 +162,7 @@ class Pokemon:
                 sentences += [f"After your {self.name}'s {user_move['name']} attack worth {damage :.2f} points:"]
                 sentences += [f"Your HP: {self.HP :.2f} Enemy HP: {enemy.HP:.2f}"]
                 print("\n".join(sentences))
-                first = not first
+                first = False
             else:
                 damage = enemy.calculate_damage(self,enemy_move['name'],screen)
                 self.HP = self.HP - damage
@@ -170,7 +170,7 @@ class Pokemon:
                 sentences += [f"After enemy's {enemy.name}'s {enemy_move['name']} attack worth {damage:.2f} points:"]
                 sentences += [f"Your HP: {self.HP:.2f} Enemy HP: {enemy.HP:.2f}"]
                 print("\n".join(sentences))
-                first = not first
+                first = True
             if screen:
                     self_HP_ratio = max(0,self.HP/self_full_HP)
                     enemy_HP_ratio = max(0,enemy.HP/enemy_full_HP)
