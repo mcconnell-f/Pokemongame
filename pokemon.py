@@ -11,53 +11,45 @@ class Pokemon:
 
 
     def __init__(self,name):
-        tmp_char = CHARACTERS[name]
+        name = name.lower()
+        name = name.title()
         self.name = name
-        self.type_ = tmp_char['Type']
-        self.HP = tmp_char['HP']
-        self.Attack = tmp_char['Attack']
-        self.Defense = tmp_char['Defense']
-        self.Speed = tmp_char['Speed']
-        self.Moves = tmp_char['Moves']
-        self.Experience = 0
-        self.Level = 1
+        self.type_ = CHARACTERS[name]['Type']
+        self.HP = CHARACTERS[name]['HP']
+        self.moves = CHARACTERS[name]['Moves']
+        self.attack = CHARACTERS[name]['Attack']
+        self.defense = CHARACTERS[name]['Defense']
+        self.speed = CHARACTERS[name]['Speed']
+        self.experience = 0
+        self.level = 1
 
     def calculate_damage(self,defender,move,screen=None):
         '''Calculates the damage from an attack'''
         modifier = self.critical_coeficient(screen)*(random.randint(85,100)/100)*self.type_coeficient(move,defender)
-        damage = ((((2*self.Level)/5+2)*MOVES_DICTIONARY[move]['power']*(CHARACTERS[self.name]['Attack']/CHARACTERS[defender.name]['Defense']))/50)*modifier
+        damage = ((((2*self.level)/5+2)*MOVES_DICTIONARY[move]['power']*(CHARACTERS[self.name]['Attack']/CHARACTERS[defender.name]['Defense']))/50)*modifier
         return damage
     
     def __str__(self):
-        
-        tmp_str = f"{self.name} has is type {self.type_}\n" + f"{self.name} has moves {self.Moves}.\n"
-        genre = ['super effective against','not very effective against']
-        for move in self.Moves:
-            move_info = MOVES_DICTIONARY[move]
-            tmp_str += f"{move} with {move_info['power']} power is {genre[0]} the type: {move_info[genre[0]]}.\n" # super effective against
-            tmp_str += f"{move} is {genre[1]} the type: {move_info[genre[1]]}.\n" # not very effective against
-        return tmp_str
+        moves_ = self.moves
+        finalsent = f"{self.name} has moves {moves_} \n"
+        for move in moves_:
+            finalsent += f"{move} with {MOVES_DICTIONARY[move]['power']} power is super effective against the types {MOVES_DICTIONARY[move]['super effective against']} \n"
+            finalsent += f"{move} is not very effective against the types {MOVES_DICTIONARY[move]['not very effective against']} \n"
+        return finalsent
 
 
     def who_attack_first(self,enemy): 
-        ''' This method get the enemy instance of Pokemon and return True if the Pokemon represent by this instance get to attack first otherwise return False'''
-        if self.Speed == enemy.Speed:
-            toss = random.choice([-1,1])
-            self.Speed += toss
-        else:
-            toss = 0
-        if self.Speed > enemy.Speed:
-            self.Speed -= toss
-            print(f"{self.name} attack first.")
+        '''Determines which Pokemon attacks first based on their speed'''
+        if self.speed >= enemy.speed:
+            print("Your Pokemon will attack first.")
             return True
-        elif self.Speed < enemy.Speed:
-            self.Speed -= toss
-            print(f"{enemy.name} attack first.")
+        else:
+            print("Your opponent will attack first.")
             return False
 
     def critical_coeficient(self,screen=None):
         '''Determines whether a hit is critical or not'''
-        if random.randint(0,512) < attacker.speed:
+        if random.randint(0,512) < self.speed:
             print("Critical hit!")
             if screen:
                 basicFont = pygame.font.SysFont('Monospace',24)
@@ -70,9 +62,9 @@ class Pokemon:
         else:
             return 1
 
-    def type_coeficient(self,move,enemy):
+    def type_coeficient(self,selfmove,enemy):
         '''Determines the type coeeficient used to calculate damage'''
-        opptypes = opponent.type_
+        opptypes = enemy.type_
         selfmove = selfmove.lower()
         selfmove = selfmove.title()
         typecoeff = 1
@@ -98,14 +90,13 @@ class Pokemon:
         ''' This method will let user choose a move and return the information of that move if it is valid'''
         if screen == None:
             print("-----------------------------------------Please choose a move-------------------------------------")
-            for move in self.Moves:
+            for move in self.moves:
                 print(move)
-            print("--------------------------------------------------------------------------------------------------")
             move = input("Enter the move")
-            if move in self.Moves:
+            if move in self.moves:
                 return MOVES_DICTIONARY[move]
             else:
-                print("Invalid move, please try again.")
+                print("Please choose a move that is listed.")
                 return self.choose_move()
         else:
             pygame.draw.rect(screen,(255,165,0),(50,425,700,150))
@@ -117,7 +108,7 @@ class Pokemon:
             move_button = []
             current_pos = 150
             ext_pos = 0
-            for move in self.Moves:
+            for move in self.moves:
                 tmp_text = basicFont.render(move,True,(255,255,255))
                 tmp_rect = tmp_text.get_rect()
                 tmp_rect.center = (current_pos,475+ext_pos)
@@ -144,8 +135,8 @@ class Pokemon:
     def choose_optimal_move(self,defender):
         ''' This method will return the optimal move that will deal the most damage amongst of all the move that we can choose. We will return the information of that move from the MOVES_DICTIONARY'''
         moves_tuple = []
-        for move in self.Moves:
-            moves_tuple.append(((MOVES_DICTIONARY[move]['power']*self.Type_coeficient(move,defender)),move))
+        for move in self.moves:
+            moves_tuple.append(((MOVES_DICTIONARY[move]['power']*self.type_coeficient(move,defender)),move))
         moves_tuple.sort(reverse=True)
         optimal_move = moves_tuple[0][1]
         return MOVES_DICTIONARY[optimal_move]

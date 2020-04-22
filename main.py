@@ -35,8 +35,8 @@ def battle_mode(user,enemy):
     enemy_img = pygame.image.load(os.path.join('images',enemy.name.lower()+'.jpg'))
     screen.blit(pygame.transform.scale(user_img,(300,300)),(50,100))
     screen.blit(pygame.transform.scale(enemy_img,(300,300)),(450,100))
-    user_displayname = user.name + " (Level " + str(int(user.Level)) +")"
-    enemy_displayname = enemy.name + " (Level " + str(int(enemy.Level)) +")"
+    user_displayname = user.name + " (Level " + str(int(user.level)) +")"
+    enemy_displayname = enemy.name + " (Level " + str(int(enemy.level)) +")"
     user_text = basicFont.render(user_displayname,True,white,black)
     enemy_text = basicFont.render(enemy_displayname,True,white,black)
     user_rect = user_text.get_rect()
